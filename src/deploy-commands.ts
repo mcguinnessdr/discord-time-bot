@@ -1,7 +1,11 @@
 import { REST, Routes } from 'discord.js';
-const { token, clientId, guildId } = require('../config.json');
+const { token, clientId } = require('../config.json');
 import fs from 'node:fs';
 import path from 'node:path';
+var parseArgs = require('minimist');
+
+const args = parseArgs(Bun.argv, {string: ["guildId"]});
+const guildId = args.guildId;
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
@@ -11,7 +15,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 for (const folder of commandFolders) {
 	// Grab all the command files from the commands directory you created earlier
 	const commandsPath = path.join(foldersPath, folder);
-    console.log(commandsPath)
+	console.log(commandsPath)
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.ts'));
 	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 	for (const file of commandFiles) {
@@ -34,21 +38,17 @@ const rest = new REST().setToken(token);
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 		let data;
-		if (guildId)
-		{
-					// The put method is used to fully refresh all commands in the guild with the current set
-		data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
-			{ body: commands },
-		);
+		if (guildId) {
+			data = await rest.put(
+				Routes.applicationGuildCommands(clientId, guildId),
+				{ body: commands },
+			);
 		} else {
-		// The put method is used to fully refresh all commands in the guild with the current set
-		data = await rest.put(
-			Routes.applicationCommands(clientId),
-			{ body: commands },
-		);
+			data = await rest.put(
+				Routes.applicationCommands(clientId),
+				{ body: commands },
+			);
 		}
-
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
