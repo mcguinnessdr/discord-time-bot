@@ -13,6 +13,8 @@ Once that is done you can right click or long press on any message from someone 
 <img width="299" alt="image" src="https://github.com/mcguinnessdr/discord-time-bot/assets/2281608/fdaf06e2-2074-4455-81cc-4cbe4c35e305">
 <img width="241" alt="image" src="https://github.com/mcguinnessdr/discord-time-bot/assets/2281608/4d11bc68-f327-4843-867c-068da8965571">
 
+You can use the `/help` command at any time to see these instructions.
+
 
 ## Self Hosting
 
